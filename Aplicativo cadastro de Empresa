@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace empresa
+{
+    public partial class frm_Principal : Form
+    {
+        public frm_Principal()
+        {
+            InitializeComponent();
+        }
+
+        
+
+        private void frm_Principal_Load(object sender, EventArgs e)
+        {
+            //Apos abrir o Aplicativo ira carregar todas essas opção
+            nOMETextBox.Clear();
+            cNPJMaskedTextBox.Clear();
+            eNDERECOTextBox.Clear();
+            cIDADETextBox.Clear();
+            rAMOTextBox.Clear();
+            nOMETextBox.Focus();
+
+            iD_EMPRESATextBox.Enabled = false;
+            
+            
+
+
+            // TODO: This line of code loads data into the 'empresaDataSet.Table' table. You can move, or remove it, as needed.
+            this.tableTableAdapter.Fill(this.empresaDataSet.Table);
+
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //se uns dos campos estiver vazil executa esta opção
+            if (nOMETextBox.Text == " " || cNPJMaskedTextBox.Text == " " || eNDERECOTextBox.Text == " " || cIDADETextBox.Text == " " || eSTADOComboBox.Text == " " || rAMOTextBox.Text == " " || iD_EMPRESATextBox.Text == " ")
+            {
+
+                MessageBox.Show("Digite em todos os Campos abaixo", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                nOMETextBox.Clear();
+                cNPJMaskedTextBox.Clear();
+                eNDERECOTextBox.Clear();
+                cIDADETextBox.Clear();
+                rAMOTextBox.Clear();
+                nOMETextBox.Focus();
+
+            }
+            //se não , execulta esta opção
+            else
+            {
+                this.Validate();
+                this.tableBindingSource.EndEdit();
+                this.tableAdapterManager.UpdateAll(this.empresaDataSet);
+               
+              
+            }
+
+        }
+
+        
+        
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            //tempo todo DataGridView vai receber os dados da tabela
+            
+                tableDataGridView.DataSource = tableTableAdapter.MOSTRAR_TODA_A_TABELA();
+        }
+        
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //o DataGridView vai selecionar os registro fornecido de acordo com o parametro
+            tableDataGridView.DataSource = tableTableAdapter.retornos(textBox1.Text);
+            
+        }
+        
+        {
+            //dataGridView recebe todos os registro da tabela
+            tableDataGridView.DataSource = tableTableAdapter.MOSTRAR_TODA_A_TABELA();
+        }
+        
+        
